@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-bsrefresh-list-view",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A list component that can be pulled up & down to refresh",
   "main": "index.js",
   "scripts": {
