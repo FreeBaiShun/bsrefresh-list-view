@@ -166,9 +166,15 @@ $ npm i
 2. 在ios路径下执行
 
 ```
-pod install
+$ pod install
 ```
-3. 运行
+3. 在react-native路径下执行(启服)
+
+```
+$ npm start
+```
+
+4. 运行
 用xcode打开BottomTest.xcworkspace工程文件运行即可
 
 
