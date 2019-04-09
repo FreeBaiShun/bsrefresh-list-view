@@ -168,7 +168,7 @@ $ npm i
 ```
 $ pod install
 ```
-3. 在react-native路径下执行(启服)
+3. 在node_modules路径下执行(启服)
 
 ```
 $ npm start
