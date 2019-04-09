@@ -18,6 +18,7 @@
     "listview",
     "refresh"
   ],
+  "main": "RefreshListView.js",
   "author": "freebs",
   "license": "MIT"
 }
