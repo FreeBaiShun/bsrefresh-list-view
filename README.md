@@ -8,7 +8,7 @@
 gitHub地址: https://github.com/FreeBaiShun/bsrefresh-list-view
 
 ## npm集成
-npm i react-native-bsrefresh-list-view
+npm i react-native-bsrefresh-list-view        
 npm i
 
 ## 用法
