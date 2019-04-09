@@ -4,7 +4,7 @@
 3. 这是一个基于FlatList，SectionList组件。支持两者的可选配置
 
 ## 效果
-![image](https://github.com/FreeBaiShun/bsrefresh-list-view/blob/master/react-native-bsrefresh-list-view.gif)        
+![image](https://github.com/FreeBaiShun/BSChartView/blob/master/react-native-bsrefresh-list-view.gif)       
 gitHub地址: https://github.com/FreeBaiShun/bsrefresh-list-view
 
 ## npm集成
@@ -156,5 +156,20 @@ refreshState: (arr.length%50 != 0) ? RefreshState.NoMoreData : RefreshState.Idle
 });
 }
 }
+```
+
+## 该Demo启动
+1. 在react-native路径下执行
+```
+$ npm i
+```
+2. 在ios路径下执行
 
 ```
+pod install
+```
+3. 运行
+用xcode打开BottomTest.xcworkspace工程文件运行即可
+
+
+

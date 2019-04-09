@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-bsrefresh-list-view",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A list component that can be pulled up & down to refresh",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
