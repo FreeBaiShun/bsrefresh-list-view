@@ -1,44 +1,160 @@
+## 功能
+1. 这是一个支持自定义的下拉刷新组件
+2. 这是一个支持自定义的上拉加载更多的组件
+3. 这是一个基于FlatList，SectionList组件。支持两者的可选配置
 
-# react-native-bsrefresh-list-view
+## 效果
+![image](https://github.com/FreeBaiShun/BSChartView/blob/master/react-native-bsrefresh-list-view.gif)        
+gitHub地址: https://github.com/FreeBaiShun/bsrefresh-list-view
 
-## Getting started
+## npm集成
+npm i react-native-bsrefresh-list-view
+npm i
 
-`$ npm install react-native-bsrefresh-list-view --save`
+## 用法
 
-### Mostly automatic installation
-
-`$ react-native link react-native-bsrefresh-list-view`
-
-### Manual installation
-
-
-#### iOS
-
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-bsrefresh-list-view` and add `RNBsrefreshListView.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNBsrefreshListView.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
-
-#### Android
-
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNBsrefreshListViewPackage;` to the imports at the top of the file
-  - Add `new RNBsrefreshListViewPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-bsrefresh-list-view'
-  	project(':react-native-bsrefresh-list-view').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-bsrefresh-list-view/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':react-native-bsrefresh-list-view')
-  	```
-
-## Usage
-```javascript
-import RNBsrefreshListView from 'react-native-bsrefresh-list-view';
-
-// TODO: What to do with the module?
-RNBsrefreshListView;
 ```
-  
+import React, {Component} from 'react';
+import RequestManager from '../network/RequestManager';
+import config from '../network/NetworkConfig';
+import RefreshListView, { RefreshState } from 'react-native-bsrefresh-list-view'
+
+import {
+Platform,
+View,
+Text,
+Image,
+Button,
+FlatList,
+} from 'react-native'
+
+import Case from './Case'
+var pageCur = 1;
+var arrMList = [];
+
+export default class Home extends Component {
+_flatList;
+
+
+static navigationOptions = ({navigation}) => {
+return {
+headerStyle:{
+backgroundColor: 'red',
+},
+headerTitle: (
+<Text style={{color:'red'}}>
+首页
+</Text>
+)
+};
+}
+
+state = {
+dataFlatList:[],
+refreshState: RefreshState.Idle,
+}
+
+_renderItem = (item) => {
+var dictCur = item.item;
+var txt =  dictCur.title + '---' + dictCur.content;
+return(
+<View style = {{height: 50.0}}>
+<Text>
+{txt}
+</Text>
+</View>
+)
+}
+_keyExtractor = (item, index) => {
+return index;
+}
+render() {
+return (
+<View>
+<RefreshListView
+//FlatList
+componentName = {'FlatList'}
+data = {this.state.dataFlatList}
+//SectionList
+//componentName = {'SectionList'}
+//sections = {this.state.dataFlatList}
+
+renderItem = {this._renderItem}
+refreshState={this.state.refreshState}
+onHeaderRefresh={this.onHeaderRefresh}
+onFooterRefresh={this.onFooterRefresh}
+keyExtractor={this._keyExtractor}
+
+// 可选
+footerRefreshingText='玩命加载中 >.<'
+footerFailureText='我擦嘞，居然失败了 =.=!'
+footerNoMoreDataText='-我是有底线的-'
+footerEmptyDataText='-好像什么东西都没有-'
+>
+
+</RefreshListView>
+</View>
+
+)
+}
+
+componentDidMount() {
+this.onHeaderRefresh();
+}
+
+//请求数据
+fetchData(page,callback){
+RequestManager.get(config.api.getText,
+{
+page:page,
+count:50,
+},(json,error) => {
+if(error){
+if(callback){
+callback(null,error);
+}
+}else{
+if(page == 1){
+pageCur = 1;
+arrMList = [];
+}
+arrMList = arrMList.concat(json.result);
+if(callback){
+callback(arrMList,null);
+}
+}
+});
+}
+
+onHeaderRefresh = () => {
+this.setState({ refreshState: RefreshState.HeaderRefreshing });
+this.fetchData(1,(arr, error) => {
+if(error){
+this.setState({ refreshState: RefreshState.Failure });
+}else{
+this.setState({
+dataFlatList: arr,
+refreshState: arr.length < 1 ? RefreshState.EmptyData : RefreshState.Idle,
+})
+}
+});
+}
+
+onFooterRefresh = () => {
+pageCur++;
+console.log('pageCur = ' + pageCur);
+this.setState({ refreshState: RefreshState.FooterRefreshing })
+this.fetchData(pageCur,(arr, error) => {
+if(error){
+this.setState({ refreshState: RefreshState.Failure });
+}else{
+this.setState({
+dataFlatList: arr,
+refreshState: (arr.length%50 != 0) ? RefreshState.NoMoreData : RefreshState.Idle,
+})
+}
+});
+}
+}
+
+```
