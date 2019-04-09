@@ -4,7 +4,7 @@
 3. 这是一个基于FlatList，SectionList组件。支持两者的可选配置
 
 ## 效果
-![image](https://github.com/FreeBaiShun/BSChartView/blob/master/bsrefresh-list-view.gif)        
+![image](https://github.com/FreeBaiShun/bsrefresh-list-view/blob/master/react-native-bsrefresh-list-view.gif)        
 gitHub地址: https://github.com/FreeBaiShun/bsrefresh-list-view
 
 ## npm集成
